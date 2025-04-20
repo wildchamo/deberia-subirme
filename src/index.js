@@ -5,7 +5,7 @@ import { searchReviewsbyPlate,saveReview,saveQuery } from "./services/index.js";
 
 const app = express();
 app.use(express.json());
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 
 app.get("/", (req, res) => {
   res.send("Hello, Debería subirme!");
@@ -21,8 +21,6 @@ app.get("/reviews/:plate", async(req, res) => {
   }
   res.status(201).send(review);
 });
-
-
 
 app.post("/reviews", async(req, res) => {
   const { number, type, description, plate } = req.body;
