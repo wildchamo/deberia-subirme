@@ -14,8 +14,7 @@ app.get("/reviews/:plate", async(req, res) => {
 
   const { plate } = req.params;
 
-  console.log(plate)
-  const review = await searchReviewsbyPlate(plate);
+  const review = await searchReviewsbyPlate(plate.toUpperCase());
   if (!review) {
     return res.status(404).send("Reseña no encontrada");
   }
