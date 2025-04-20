@@ -14,7 +14,8 @@ export const searchReviewsbyPlate = async (plate) => {
       projection: { _id: 0, type: 1, description: 1, plate: 1, number: 0 },
     };
 
-    const review = await mongoClient
+    const db= await mongoClient();
+    const review = await db
       .collection(REVIEWS_COLLECTION)
       .findOne(query, options);
 

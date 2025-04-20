@@ -1,4 +1,4 @@
-import {searchReviewsbyPlate, saveReview, saveQuery} from './services.js';
+import {searchReviewsbyPlate, saveReview, saveQuery} from './';
 
 describe('searchReviewsbyPlate', () => {
   test("case searchReviewsbyPlate", async() => {
