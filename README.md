@@ -49,9 +49,9 @@ La interfaz será mediante **WhatsApp**, por las siguientes razones:
 
 ## 🚀 Próximos pasos
 
-- [ ] Diseñar flujo de conversación en WhatsApp
-- [ ] Configurar webhook con API de WhatsApp Business
+- [X] Diseñar flujo de conversación en WhatsApp
 - [ ] Definir estructura de base de datos: vehículos, reseñas, usuarios
+- [ ] Configurar webhook con API de WhatsApp Business
 - [ ] Implementar sistema básico de reputación por placa
 - [ ] Escribir tests y documentación inicial
 
