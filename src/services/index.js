@@ -1,4 +1,4 @@
-import { mongoClient } from "../mongo";
+import { db } from "../mongo";
 const REVIEWS_COLLECTION = "reviews";
 const QUERIES_COLLECTION = "queries";
 
@@ -14,9 +14,8 @@ export const searchReviewsbyPlate = async (plate) => {
       projection: { _id: 0, type: 1, description: 1, plate: 1, number: 0 },
     };
 
-    const db= await mongoClient();
-    const review = await db
-      .collection(REVIEWS_COLLECTION)
+    const collection = await db.collection(REVIEWS_COLLECTION) 
+    const review = await collection
       .findOne(query, options);
 
     console.log(review);
@@ -41,8 +40,10 @@ export const saveReview = async ({ number, type, description, plate }) => {
     createdAt: new Date(),
   };
   try {
-    const savedReview = await mongoClient
-      .collection(REVIEWS_COLLECTION)
+
+    let collection = await db.collection(REVIEWS_COLLECTION);
+      
+    const savedReview = await collection
       .insertOne(doc);
     return savedReview;
   } catch (error) {
