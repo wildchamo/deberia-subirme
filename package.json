@@ -18,5 +18,8 @@
   "dependencies": {
     "express": "^5.1.0",
     "mongodb": "^6.15.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

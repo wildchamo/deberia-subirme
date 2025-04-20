@@ -1,6 +1,7 @@
 import { mongoClient } from "../mongo";
 const REVIEWS_COLLECTION = "reviews";
 const QUERIES_COLLECTION = "queries";
+
 export const searchReviewsbyPlate = async (plate) => {
   if (!plate) {
     console.error("Error: Se requiere la matrícula (plate) para buscar.");
