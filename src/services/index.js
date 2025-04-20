@@ -1,4 +1,4 @@
-import { db } from "../mongo";
+import db from "../mongo/index.js";
 const REVIEWS_COLLECTION = "reviews";
 const QUERIES_COLLECTION = "queries";
 
@@ -8,10 +8,12 @@ export const searchReviewsbyPlate = async (plate) => {
     return null;
   }
 
+  console.log(plate)
+
   try {
     const query = { plate: plate };
     const options = {
-      projection: { _id: 0, type: 1, description: 1, plate: 1, number: 0 },
+      projection: { _id: 0, type: 1, description: 1, plate: 1 },
     };
 
     const collection = await db.collection(REVIEWS_COLLECTION) 
@@ -65,8 +67,8 @@ export const saveQuery = async ({ number, plate }) => {
   };
 
   try {
-    const result = await mongoClient
-      .collection(QUERIES_COLLECTION)
+    const collection = await db.collection(QUERIES_COLLECTION);
+    const result = await collection
       .insertOne(doc);
 
     console.log(`Consulta guardada con éxito con ID: ${result.insertedId}`);
