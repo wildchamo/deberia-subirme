@@ -7,16 +7,13 @@ export const searchReviewsbyPlate = async (plate) => {
     console.error("Error: Se requiere la matrícula (plate) para buscar.");
     return null;
   }
-
-  console.log(plate)
-
   try {
     const query = { plate: plate };
     const options = {
       projection: { _id: 0, type: 1, description: 1, plate: 1 },
     };
 
-    const collection = await db.collection(REVIEWS_COLLECTION) 
+    const collection =  db.collection(REVIEWS_COLLECTION) 
     const review = await collection
       .findOne(query, options);
 
@@ -29,7 +26,7 @@ export const searchReviewsbyPlate = async (plate) => {
 };
 
 export const saveReview = async ({ number, type, description, plate }) => {
-  if (!number || !type || !description || !plate) {
+  if (!number || !type || !plate) {
     console.error("Error: Faltan datos para guardar la reseña.");
     return null;
   }
@@ -43,7 +40,7 @@ export const saveReview = async ({ number, type, description, plate }) => {
   };
   try {
 
-    let collection = await db.collection(REVIEWS_COLLECTION);
+    let collection = db.collection(REVIEWS_COLLECTION);
       
     const savedReview = await collection
       .insertOne(doc);
@@ -67,7 +64,7 @@ export const saveQuery = async ({ number, plate }) => {
   };
 
   try {
-    const collection = await db.collection(QUERIES_COLLECTION);
+    const collection =  db.collection(QUERIES_COLLECTION);
     const result = await collection
       .insertOne(doc);
 
