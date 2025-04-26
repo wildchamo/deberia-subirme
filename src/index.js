@@ -1,10 +1,14 @@
 import express from "express";
 import 'dotenv/config'
+
+import webhookRoutes from "./routes/webhookRoutes.js";
 import { searchReviewsbyPlate,saveReview,saveQuery } from "./services/index.js"; 
 
 
 const app = express();
 app.use(express.json());
+app.use("/", webhookRoutes);
+
 const PORT = 8080;
 
 app.get("/", (req, res) => {
