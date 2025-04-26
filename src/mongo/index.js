@@ -1,5 +1,6 @@
+import config from "../config/env.js";
 import { MongoClient } from "mongodb";
-const connectionString = process.env.MONGO_DB_URI || "";
+const connectionString = config.MONGO_DB_URI;
 const client = new MongoClient(connectionString);
 let conn;
 try {
