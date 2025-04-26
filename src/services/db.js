@@ -10,15 +10,19 @@ export const searchReviewsbyPlate = async (plate) => {
   try {
     const query = { plate: plate };
     const options = {
-      projection: { _id: 0, type: 1, description: 1, plate: 1 },
+      projection: { _id: 0, type: 1 },
     };
 
-    const collection =  db.collection(REVIEWS_COLLECTION) 
-    const review = await collection
-      .findOne(query, options);
+    const collection = db.collection(REVIEWS_COLLECTION);
+    const cursor = await collection.find(query, options);
 
-    console.log(review);
-    return review;
+    let reviews = [];
+    for await (const doc of cursor) {
+      reviews.push(doc.type);
+    }
+
+    console.log(reviews);
+    return reviews;
   } catch (error) {
     console.error(`Error buscando reseña por matrícula '${plate}':`, error);
     return null;
@@ -39,11 +43,9 @@ export const saveReview = async ({ number, type, description, plate }) => {
     createdAt: new Date(),
   };
   try {
-
     let collection = db.collection(REVIEWS_COLLECTION);
-      
-    const savedReview = await collection
-      .insertOne(doc);
+
+    const savedReview = await collection.insertOne(doc);
     return savedReview;
   } catch (error) {
     console.error("Error guardando la reseña:", error);
@@ -64,9 +66,8 @@ export const saveQuery = async ({ number, plate }) => {
   };
 
   try {
-    const collection =  db.collection(QUERIES_COLLECTION);
-    const result = await collection
-      .insertOne(doc);
+    const collection = db.collection(QUERIES_COLLECTION);
+    const result = await collection.insertOne(doc);
 
     console.log(`Consulta guardada con éxito con ID: ${result.insertedId}`);
     return result;

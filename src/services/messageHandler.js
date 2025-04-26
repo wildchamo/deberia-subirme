@@ -38,11 +38,18 @@ class MessageHandler {
     }
   }
 
-  async sendWelcomeMessage(to, messageId) {
+  async sendWelcomeMessage(to) {
     const welcomeMessage =
       "¡Hola! \n*Bienvenidx a Trazza,* tu canal para reportar o consultar cualquier situación relacionada con un viaje. 🚗\nEstamos aquí para ayudarte. ¿Con qué te apoyamos hoy?";
 
-    await whatsappService.sendMessage(to, welcomeMessage, messageId);
+    await whatsappService.sendMessage(to, welcomeMessage);
+  }
+
+  async sendNeedMoreHelp(to) {
+    const message =
+      "¿Necesitas ayuda con algo más? 💬\nEstamos aquí para apoyarte en lo que necesites relacionado con tu viaje.";
+
+    await whatsappService.sendMessage(to, message);
   }
 
   async sendWelcomeMenu(to) {
@@ -89,6 +96,45 @@ class MessageHandler {
     }
 
     await whatsappService.sendMessage(to, response);
+  }
+
+  async handleQueryFlow(to, message) {
+    const state = this.reportQuery[to];
+
+    delete this.reportQuery[to];
+
+    console.log("data:", message);
+
+    const response = "Estamos consultando la información, por favor espera...";
+
+    await whatsappService.sendMessage(to, response);
+
+    const reviews = await searchReviewsbyPlate(message.toUpperCase());
+
+    if (reviews.length > 0) {
+      const categoryCounts = {};
+      reviews.forEach((category) => {
+        categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+      });
+
+      let reportSummary = `✅ Este vehículo tiene los siguientes reportes:\n`;
+      for (const category in categoryCounts) {
+        reportSummary += `- ${categoryCounts[category]} reporte(s) de tipo ${category}\n`;
+      }
+
+      await whatsappService.sendMessage(to, reportSummary);
+    } else {
+      await whatsappService.sendMessage(
+        to,
+        "✅ Este vehículo no tiene reportes registrados.\nSi notas algo inusual, puedes reportarlo aquí."
+      );
+    }
+
+    await this.sendNeedMoreHelp(to);
+
+    await this.sendWelcomeMenu(to);
+
+    console.log(reviews);
   }
 }
 

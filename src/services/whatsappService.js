@@ -1,6 +1,6 @@
 import { sendToWhatsapp } from "./http-request/sendToWhatsapp.js";
 class WhatsAppService {
-  async sendMessage(to, body, messageId = null) {
+  async sendMessage(to, body) {
     const data = {
       messaging_product: "whatsapp",
       to,
