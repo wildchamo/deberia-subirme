@@ -2,7 +2,7 @@ import express from "express";
 import 'dotenv/config'
 
 import webhookRoutes from "./routes/webhookRoutes.js";
-import { searchReviewsbyPlate,saveReview,saveQuery } from "./services/index.js"; 
+import { searchReviewsbyPlate,saveReview,saveQuery } from "./services/db.js"; 
 
 
 const app = express();
