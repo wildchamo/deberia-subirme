@@ -1,16 +1,18 @@
 import { searchReviewsbyPlate, saveReview, saveQuery } from "./db.js";
-
+import whatsappService from "./whatsappService.js";
 class MessageHandler {
   constructor() {
     this.reportForm = {};
   }
 
   async handleIncomingMessage(message, senderInfo) {
-    const incomingMessage = message.text.body.toLowerCase().trim();
-
-    let response;
     switch (message?.type) {
       case "text":
+        const incomingMessage = message.text.body.toLowerCase().trim();
+
+        await this.sendWelcomeMessage(message.from, message.id);
+        await this.sendWelcomeMenu(message.from);
+
         break;
       case "interactive":
         break;
@@ -34,17 +36,18 @@ class MessageHandler {
     const buttons = [
       {
         type: "reply",
-        reply: { id: "reportarIncidente", title: "Reportar un incidente ⚠️" },
-      },
-      {
-        type: "reply",
         reply: {
-          id: "hacerConsulta",
+          id: "hacer-consulta",
           title: "Hacer una consulta 💬",
         },
       },
+      {
+        type: "reply",
+        reply: { id: "reportar-incidente", title: "Reportar incidente ⚠️" },
+      },
     ];
 
+    console.log(title, buttons, to);
     await whatsappService.sendInteractiveButtons(to, title, buttons);
   }
 }

@@ -55,7 +55,7 @@ class WhatsAppService {
         mediaObject.document = {
           link: url,
           caption: caption,
-          filename: "wildchamo.pdf",
+          filename: "archivo.pdf",
         };
         break;
 
