@@ -8,7 +8,7 @@ class WebhookController {
 
     const senderInfo = req.body.entry?.[0]?.changes[0]?.value?.contacts?.[0];
 
-    console.log("Incoming message:", message);
+    // console.log("Incoming message:", message);
 
     if (message) {
       await messageHandler.handleIncomingMessage(message, senderInfo);

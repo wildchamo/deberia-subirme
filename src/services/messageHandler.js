@@ -54,6 +54,7 @@ class MessageHandler {
         }
 
         if (this.reportForm[message.from]) {
+          console.log("reportForm", this.reportForm);
           return await this.handleReportFlow(message.from, incomingMessage);
         }
 
@@ -62,6 +63,10 @@ class MessageHandler {
 
         break;
       case "interactive":
+        if (this.reportForm[message.from]) {
+          return await this.handleReportFlow(message.from, message);
+        }
+
         const chosenOption = message.interactive.button_reply.id.trim();
         await this.handleMenuOption(message.from, chosenOption);
 
@@ -158,7 +163,9 @@ class MessageHandler {
 
       let reportSummary = `Nomo encontró algo 🔎:\n el vehículo con placa ${plate} tiene los siguientes reportes:\n`;
       for (const category in categoryCounts) {
-        reportSummary += `- ${categoryCounts[category]} reporte(s) de tipo ${category}\n`;
+        reportSummary += `- ${categoryCounts[category]} reporte(s) de tipo ${
+          this.rows.find((row) => row.id === category).title
+        }\n`;
       }
 
       await whatsappService.sendMessage(to, reportSummary);
@@ -184,19 +191,13 @@ class MessageHandler {
   async handleReportFlow(to, message) {
     const state = this.reportForm[to];
 
-    const userResponse = message.toUpperCase();
-
     let response;
 
     switch (state.step) {
       case "plate":
-        const plate = userResponse;
-        console.log("plate", plate);
-        state.plate = plate;
+        const plate = message.toUpperCase();
         state.step = "category";
-
-        console.log(this.rows);
-
+        state.plate = plate;
         await whatsappService.sendListMessage({
           to,
           bodyText:
@@ -204,16 +205,27 @@ class MessageHandler {
           buttonText: "Seleccionar",
           rows: this.rows,
         });
-        // response =
-        //   "Ahora, responde solo con el número de la opción que mejor describa tu experiencia: \n1️1. Comportamiento agresivo\n2️2. Conducción peligrosa\n3️3. Robo\n4️4. Acoso sexual\n5️5. Abuso sexual\n6️6. Otro";
         break;
       case "category":
         state.step = "description";
+        const category = message.interactive.list_reply.id;
+        state.category = category;
 
-        console.log("category");
+        response =
+          "Gracias por seleccionar la categoría.\n Ahora, si lo deseas, puedes compartir una breve descripción de lo que sucedió. Esta información es opcional pero muy valiosa para ayudar a otros.\n Si prefieres no añadir una descripción, simplemente envía un punto (.) o la palabra 'ok' para continuar.";
         break;
       case "description":
-        console.log("description");
+        state.description = message;
+
+        await saveReview({
+          number: to,
+          plate: state.plate,
+          type: state.category,
+          description: message,
+        });
+        delete this.reportForm[to];
+
+        response = `Gracias por compartir tu experiencia con nosotros. \n\nTu reseña ha sido registrada con éxito y será revisada por nuestro equipo. \n\nRecuerda que tu opinión es valiosa y ayuda a crear un entorno más seguro para todos. \n\nSi tienes alguna otra consulta o necesitas más ayuda, no dudes en decírmelo.`;
         break;
     }
 
