@@ -40,7 +40,7 @@ class MessageHandler {
 
   async sendWelcomeMessage(to) {
     const welcomeMessage =
-      "¡Hola! \n*Bienvenidx a Trazza,* tu canal para reportar o consultar cualquier situación relacionada con un viaje. 🚗\nEstamos aquí para ayudarte. ¿Con qué te apoyamos hoy?";
+      "*Hey! Nomo te saluda.* \nBienvenidx a esta herramienta creada por ti y para ti. Aquí podrás consultar si una placa vehicular tiene algún reporte negativo o registrar una mala experiencia que hayas tenido en el servicio de transporte público individual para que nadie vuelva a pasar por lo mismo.";
 
     await whatsappService.sendMessage(to, welcomeMessage);
   }
@@ -53,22 +53,21 @@ class MessageHandler {
   }
 
   async sendWelcomeMenu(to) {
-    const title = "Selecciona una opción:";
+    const title = "¿Qué te gustaría hacer?";
     const buttons = [
       {
         type: "reply",
         reply: {
           id: "hacer-consulta",
-          title: "Hacer una consulta 💬",
+          title: "1️⃣ Consultar una placa",
         },
       },
       {
         type: "reply",
-        reply: { id: "reportar-incidente", title: "Reportar incidente ⚠️" },
+        reply: { id: "reportar-incidente", title: "2️⃣ Registrar experiencia" },
       },
     ];
 
-    console.log(title, buttons, to);
     await whatsappService.sendInteractiveButtons(to, title, buttons);
   }
 
@@ -80,12 +79,12 @@ class MessageHandler {
         this.reportQuery[to] = { step: "plate" };
 
         response =
-          "¡Claro! Por favor, ingresa la placa del vehículo en el formato *ABC-123* para continuar.";
+          "Por favor, escribe el número de placa en el siguiente formato: *ABC123*";
         break;
 
       //TODO
       case "reportar-incidente":
-        this.reportQuery[to] = { step: "category" };
+        this.reportForm[to] = { step: "category" };
         response =
           "Gracias por tu confianza. \nPara entender mejor lo que ocurrió, por favor selecciona la categoría que mejor describe la situación.";
         break;
@@ -103,13 +102,18 @@ class MessageHandler {
 
     delete this.reportQuery[to];
 
-    console.log("data:", message);
+    const plate = message.toUpperCase();
 
     const response = "Estamos consultando la información, por favor espera...";
 
     await whatsappService.sendMessage(to, response);
 
-    const reviews = await searchReviewsbyPlate(message.toUpperCase());
+    await saveQuery({
+      number: to,
+      plate,
+    });
+
+    const reviews = await searchReviewsbyPlate(plate);
 
     if (reviews.length > 0) {
       const categoryCounts = {};
@@ -117,16 +121,21 @@ class MessageHandler {
         categoryCounts[category] = (categoryCounts[category] || 0) + 1;
       });
 
-      let reportSummary = `✅ Este vehículo tiene los siguientes reportes:\n`;
+      let reportSummary = `Nomo encontró algo 🔎:\n el vehículo con placa ${plate} tiene los siguientes reportes:`;
       for (const category in categoryCounts) {
         reportSummary += `- ${categoryCounts[category]} reporte(s) de tipo ${category}\n`;
       }
 
       await whatsappService.sendMessage(to, reportSummary);
+
+      await whatsappService.sendMessage(
+        to,
+        "Recuerda que estos reportes NO están verificados y fueron hechos por la comunidad. Nuestro objetivo es informarte y prevenirte antes de que decidas subirte a un vehículo. ¿Hay algo más en lo que pueda ayudarte?"
+      );
     } else {
       await whatsappService.sendMessage(
         to,
-        "✅ Este vehículo no tiene reportes registrados.\nSi notas algo inusual, puedes reportarlo aquí."
+        `❌ El vehículo con placa ${plate} no cuenta con registros en nuestra plataforma. No olvides consultar la próxima vez que vayas a subirte a un vehículo; nuestro objetivo es informarte y prevenirte. ¿Hay algo más en lo que pueda ayudarte?`
       );
     }
 
@@ -135,6 +144,23 @@ class MessageHandler {
     await this.sendWelcomeMenu(to);
 
     console.log(reviews);
+  }
+
+  async handleReportFlow(to, message) {
+    const state = this.reportForm[to];
+
+    const plate = message.toUpperCase();
+
+    const response = "Estamos registrando la información, por favor espera...";
+
+    await whatsappService.sendMessage(to, response);
+
+    await saveReview({
+      number: to,
+      plate,
+      category: state.category,
+      description: message,
+    });
   }
 }
 
