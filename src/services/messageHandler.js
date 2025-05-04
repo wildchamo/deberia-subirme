@@ -4,6 +4,42 @@ class MessageHandler {
   constructor() {
     this.reportForm = {};
     this.reportQuery = {};
+
+    this.rows = [
+      {
+        id: "1",
+        title: "Comportamiento agresivo",
+      },
+      {
+        id: "2",
+        title: "Conducción peligrosa",
+      },
+      {
+        id: "3",
+        title: "Robo",
+      },
+      {
+        id: "4",
+        title: "Acoso sexual",
+      },
+      {
+        id: "5",
+        title: "Abuso sexual",
+      },
+
+      {
+        id: "6",
+        title: "Consumo de sustancias",
+      },
+      {
+        id: "7",
+        title: "Discriminación",
+      },
+      {
+        id: "8",
+        title: "No coincide con la foto",
+      },
+    ];
   }
 
   async handleIncomingMessage(message, senderInfo) {
@@ -82,11 +118,10 @@ class MessageHandler {
           "Por favor, escribe el número de placa en el siguiente formato: *ABC-123*";
         break;
 
-      //TODO
       case "reportar-incidente":
-        this.reportForm[to] = { step: "category" };
+        this.reportForm[to] = { step: "plate" };
         response =
-          "Gracias por tu confianza. \nPara entender mejor lo que ocurrió, por favor selecciona la categoría que mejor describe la situación.";
+          "Agradecemos que quieras compartir tu experiencia con la comunidad. Creemos firmemente que tu reseña ayudará a proteger la vida de alguien más. \n Primero, ingresa la placa del vehículo en el siguiente formato: ABC-123";
         break;
 
       default:
@@ -149,18 +184,40 @@ class MessageHandler {
   async handleReportFlow(to, message) {
     const state = this.reportForm[to];
 
-    const plate = message.toUpperCase();
+    const userResponse = message.toUpperCase();
 
-    const response = "Estamos registrando la información, por favor espera...";
+    let response;
 
-    await whatsappService.sendMessage(to, response);
+    switch (state.step) {
+      case "plate":
+        const plate = userResponse;
+        console.log("plate", plate);
+        state.plate = plate;
+        state.step = "category";
 
-    await saveReview({
-      number: to,
-      plate,
-      category: state.category,
-      description: message,
-    });
+        console.log(this.rows);
+
+        await whatsappService.sendListMessage({
+          to,
+          bodyText:
+            "Ahora, selecciona la categoría que mejor describa tu experiencia",
+          buttonText: "Seleccionar",
+          rows: this.rows,
+        });
+        // response =
+        //   "Ahora, responde solo con el número de la opción que mejor describa tu experiencia: \n1️1. Comportamiento agresivo\n2️2. Conducción peligrosa\n3️3. Robo\n4️4. Acoso sexual\n5️5. Abuso sexual\n6️6. Otro";
+        break;
+      case "category":
+        state.step = "description";
+
+        console.log("category");
+        break;
+      case "description":
+        console.log("description");
+        break;
+    }
+
+    if (response) await whatsappService.sendMessage(to, response);
   }
 }
 

@@ -83,5 +83,28 @@ class WhatsAppService {
     };
     await sendToWhatsapp(data);
   }
+
+  async sendListMessage({ to, bodyText, buttonText, rows }) {
+    const data = {
+      messaging_product: "whatsapp",
+      to,
+      type: "interactive",
+      interactive: {
+        type: "list",
+        body: { text: bodyText },
+        action: {
+          button: buttonText,
+          sections: [
+            {
+              title: "Selecciona una opción",
+              rows: rows,
+            },
+          ],
+        },
+      },
+    };
+
+    await sendToWhatsapp(data);
+  }
 }
 export default new WhatsAppService();
