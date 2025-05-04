@@ -59,12 +59,12 @@ class MessageHandler {
         type: "reply",
         reply: {
           id: "hacer-consulta",
-          title: "1️⃣ Consultar una placa",
+          title: "1️⃣ Consultar placa",
         },
       },
       {
         type: "reply",
-        reply: { id: "reportar-incidente", title: "2️⃣ Registrar experiencia" },
+        reply: { id: "reportar-incidente", title: "2️⃣ Registrar viaje" },
       },
     ];
 
@@ -79,7 +79,7 @@ class MessageHandler {
         this.reportQuery[to] = { step: "plate" };
 
         response =
-          "Por favor, escribe el número de placa en el siguiente formato: *ABC123*";
+          "Por favor, escribe el número de placa en el siguiente formato: *ABC-123*";
         break;
 
       //TODO
@@ -121,7 +121,7 @@ class MessageHandler {
         categoryCounts[category] = (categoryCounts[category] || 0) + 1;
       });
 
-      let reportSummary = `Nomo encontró algo 🔎:\n el vehículo con placa ${plate} tiene los siguientes reportes:`;
+      let reportSummary = `Nomo encontró algo 🔎:\n el vehículo con placa ${plate} tiene los siguientes reportes:\n`;
       for (const category in categoryCounts) {
         reportSummary += `- ${categoryCounts[category]} reporte(s) de tipo ${category}\n`;
       }
