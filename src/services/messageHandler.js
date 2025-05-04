@@ -168,24 +168,22 @@ class MessageHandler {
         }\n`;
       }
 
+      reportSummary +=
+        "\nRecuerda que estos reportes NO están verificados y fueron hechos por la comunidad. Nuestro objetivo es informarte y prevenirte antes de que decidas subirte a un vehículo. ¿Hay algo más en lo que pueda ayudarte?";
+
       await whatsappService.sendMessage(to, reportSummary);
 
-      await whatsappService.sendMessage(
-        to,
-        "Recuerda que estos reportes NO están verificados y fueron hechos por la comunidad. Nuestro objetivo es informarte y prevenirte antes de que decidas subirte a un vehículo. ¿Hay algo más en lo que pueda ayudarte?"
-      );
+      // TODO fund proyect
+      // await whatsappService.sendMessage(
+      //   to,
+      //   "Recuerda que estos reportes NO están verificados y fueron hechos por la comunidad. Nuestro objetivo es informarte y prevenirte antes de que decidas subirte a un vehículo. ¿Hay algo más en lo que pueda ayudarte?"
+      // );
     } else {
       await whatsappService.sendMessage(
         to,
         `❌ El vehículo con placa ${plate} no cuenta con registros en nuestra plataforma. No olvides consultar la próxima vez que vayas a subirte a un vehículo; nuestro objetivo es informarte y prevenirte. ¿Hay algo más en lo que pueda ayudarte?`
       );
     }
-
-    await this.sendNeedMoreHelp(to);
-
-    await this.sendWelcomeMenu(to);
-
-    console.log(reviews);
   }
 
   async handleReportFlow(to, message) {
