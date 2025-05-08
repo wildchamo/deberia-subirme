@@ -17,6 +17,17 @@ class WhatsAppService {
     };
     await sendToWhatsapp(data);
   }
+  async markAsReadWithTyping(messageId) {
+    const data = {
+      messaging_product: "whatsapp",
+      status: "read",
+      message_id: messageId,
+      typing_indicator: {
+        type: "text",
+      },
+    };
+    await sendToWhatsapp(data);
+  }
 
   async sendInteractiveButtons(to, bodyText, buttons) {
     const data = {

@@ -54,7 +54,8 @@ class MessageHandler {
         }
 
         if (this.reportForm[message.from]) {
-          console.log("reportForm", this.reportForm);
+          await whatsappService.markAsReadWithTyping(message.id);
+
           return await this.handleReportFlow(message.from, incomingMessage);
         }
 
@@ -172,10 +173,6 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
     delete this.reportQuery[to];
 
     const plate = message.toUpperCase();
-
-    const response = "Estamos consultando la información, por favor espera...";
-
-    await whatsappService.sendMessage(to, response);
 
     await saveQuery({
       number: to,
