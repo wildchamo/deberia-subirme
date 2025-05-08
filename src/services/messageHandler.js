@@ -73,7 +73,6 @@ class MessageHandler {
         break;
 
       default:
-        await this.sendWelcomeMessage(message.from, message.id);
         await this.sendWelcomeMenu(message.from);
         break;
     }
