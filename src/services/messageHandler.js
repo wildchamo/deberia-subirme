@@ -197,18 +197,47 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
       reportSummary +=
         "\nRecuerda que estos reportes NO están verificados y fueron hechos por la comunidad. Nuestro objetivo es informarte y prevenirte antes de que decidas subirte a un vehículo. \n¿Hay algo más en lo que pueda ayudarte?";
 
-      await whatsappService.sendMessage(to, reportSummary);
+      const buttons = [
+        {
+          type: "reply",
+          reply: {
+            id: "hacer-consulta",
+            title: "1️⃣ Consultar placa",
+          },
+        },
+        {
+          type: "reply",
+          reply: { id: "reportar-incidente", title: "2️⃣ Reportar placa" },
+        },
+        {
+          type: "reply",
+          reply: { id: "apoyar-proyecto", title: "💰 Apoyar proyecto" },
+        },
+      ];
 
-      // TODO fund proyect
-      // await whatsappService.sendMessage(
-      //   to,
-      //   "Recuerda que estos reportes NO están verificados y fueron hechos por la comunidad. Nuestro objetivo es informarte y prevenirte antes de que decidas subirte a un vehículo. ¿Hay algo más en lo que pueda ayudarte?"
-      // );
+      await whatsappService.sendInteractiveButtons(to, reportSummary, buttons);
     } else {
-      await whatsappService.sendMessage(
-        to,
-        `❌ El vehículo con placa ${plate} no cuenta con registros en nuestra plataforma. No olvides consultar la próxima vez que vayas a subirte a un vehículo; nuestro objetivo es informarte y prevenirte. ¿Hay algo más en lo que pueda ayudarte?`
-      );
+      title = `❌ El vehículo con placa ${plate} no cuenta con registros en nuestra plataforma. No olvides consultar la próxima vez que vayas a subirte a un vehículo; nuestro objetivo es informarte y prevenirte. ¿Hay algo más en lo que pueda ayudarte?`;
+
+      const buttons = [
+        {
+          type: "reply",
+          reply: {
+            id: "hacer-consulta",
+            title: "1️⃣ Consultar placa",
+          },
+        },
+        {
+          type: "reply",
+          reply: { id: "reportar-incidente", title: "2️⃣ Reportar placa" },
+        },
+        {
+          type: "reply",
+          reply: { id: "apoyar-proyecto", title: "💰 Apoyar proyecto" },
+        },
+      ];
+
+      await whatsappService.sendInteractiveButtons(to, title, buttons);
     }
   }
 
@@ -252,7 +281,29 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
         });
         delete this.reportForm[to];
 
-        response = `Gracias por compartir tu experiencia con nosotros. \n\nTu reseña ha sido registrada con éxito.\nRecuerda que tu opinión es valiosa y ayuda a crear un entorno más seguro para todos. \n\n¿Hay algo más en lo que pueda ayudarte?`;
+        title = `Gracias por compartir tu experiencia con nosotros. \n\nTu reseña ha sido registrada con éxito.\nRecuerda que tu opinión es valiosa y ayuda a crear un entorno más seguro para todos. \n\n¿Hay algo más en lo que pueda ayudarte?`;
+
+        const buttons = [
+          {
+            type: "reply",
+            reply: {
+              id: "hacer-consulta",
+              title: "1️⃣ Consultar placa",
+            },
+          },
+          {
+            type: "reply",
+            reply: { id: "reportar-incidente", title: "2️⃣ Reportar placa" },
+          },
+          {
+            type: "reply",
+            reply: { id: "apoyar-proyecto", title: "💰 Apoyar proyecto" },
+          },
+        ];
+
+        await whatsappService.sendInteractiveButtons(to, title, buttons);
+
+        response = null;
         break;
     }
 
