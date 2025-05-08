@@ -114,6 +114,10 @@ class MessageHandler {
         type: "reply",
         reply: { id: "reportar-incidente", title: "2️⃣ Reportar placa" },
       },
+      {
+        type: "reply",
+        reply: { id: "apoyar-proyecto", title: "💰 Apoyar proyecto" },
+      },
     ];
 
     await whatsappService.sendInteractiveButtons(to, title, buttons);
@@ -128,22 +132,38 @@ class MessageHandler {
 
         response =
           "Por favor, escribe el número de placa en el siguiente formato: *ABC123*";
+        await whatsappService.sendMessage(to, response);
+
         break;
 
       case "reportar-incidente":
         this.reportForm[to] = { step: "plate" };
         response = `¡Gracias por compartir tu experiencia con la comunidad!
 Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
- \n Primero, ingresa la placa del vehículo en el siguiente formato: ABC123`;
+ \n Primero, ingresa la placa del vehículo en el siguiente formato: *ABC123*`;
+
+        await whatsappService.sendMessage(to, response);
+
+        break;
+
+      case "apoyar-proyecto":
+        await whatsappService.sendCtaUrlMessage({
+          to,
+          headerText: "Apoya el proyecto",
+          bodyText:
+            "Tu ayuda hace la diferencia. Todas las donaciones serán usadas para mantener y mejorar el proyecto.",
+          footerText: "¡Gracias por tu apoyo!",
+          displayText: "Hacer una donación",
+          url: "https://wildchamo.github.io/nomo-landing/apoyar.html",
+        });
 
         break;
 
       default:
         response =
           "Lo siento, no entendí tu selección, elige una opción del menú";
+        await whatsappService.sendMessage(to, response);
     }
-
-    await whatsappService.sendMessage(to, response);
   }
 
   async handleQueryFlow(to, message) {

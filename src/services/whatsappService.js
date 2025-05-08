@@ -106,5 +106,42 @@ class WhatsAppService {
 
     await sendToWhatsapp(data);
   }
+
+  async sendCtaUrlMessage({
+    to,
+    headerText,
+    bodyText,
+    footerText,
+    displayText,
+    url,
+  }) {
+    const data = {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to,
+      type: "interactive",
+      interactive: {
+        type: "cta_url",
+        header: {
+          text: headerText,
+        },
+        body: {
+          text: bodyText,
+        },
+        footer: {
+          text: footerText,
+        },
+        action: {
+          name: "cta_url",
+          parameters: {
+            display_text: displayText,
+            url: url,
+          },
+        },
+      },
+    };
+
+    await sendToWhatsapp(data);
+  }
 }
 export default new WhatsAppService();
