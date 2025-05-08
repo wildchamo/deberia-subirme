@@ -149,7 +149,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
       case "apoyar-proyecto":
         await whatsappService.sendCtaUrlMessage({
           to,
-          headerText: "Apoya el proyecto",
+          headerText: "Salva vidas apoyando a NoMo",
           bodyText:
             "Tu ayuda hace la diferencia. Todas las donaciones serán usadas para mantener y mejorar el proyecto.",
           footerText: "¡Gracias por tu apoyo!",
