@@ -128,7 +128,7 @@ class MessageHandler {
         this.reportForm[to] = { step: "plate" };
         response = `¡Gracias por compartir tu experiencia con la comunidad!
 Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
- \n Primero, ingresa la placa del vehículo en el siguiente formato: ABC-123`;
+ \n Primero, ingresa la placa del vehículo en el siguiente formato: ABC123`;
 
         break;
 
