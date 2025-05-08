@@ -43,7 +43,7 @@ class MessageHandler {
   }
 
   async handleIncomingMessage(message, senderInfo) {
-    await whatsappService.markAsRead(message.id);
+    await whatsappService.markAsReadWithTyping(message.id);
 
     switch (message?.type) {
       case "text":
@@ -54,8 +54,6 @@ class MessageHandler {
         }
 
         if (this.reportForm[message.from]) {
-          await whatsappService.markAsReadWithTyping(message.id);
-
           return await this.handleReportFlow(message.from, incomingMessage);
         }
 
@@ -76,26 +74,6 @@ class MessageHandler {
         await this.sendWelcomeMenu(message.from);
         break;
     }
-  }
-
-  async sendNeedMoreHelp(to) {
-    const title =
-      "¿Necesitas ayuda con algo más? 💬\nEstamos aquí para apoyarte en lo que necesites.";
-    const buttons = [
-      {
-        type: "reply",
-        reply: {
-          id: "hacer-consulta",
-          title: "1️⃣ Consultar placa",
-        },
-      },
-      {
-        type: "reply",
-        reply: { id: "reportar-incidente", title: "2️⃣ Reportar placa" },
-      },
-    ];
-
-    await whatsappService.sendInteractiveButtons(to, title, buttons);
   }
 
   async sendWelcomeMenu(to) {
