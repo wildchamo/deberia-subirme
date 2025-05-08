@@ -1,22 +1,20 @@
 import express from "express";
-import 'dotenv/config'
+import "dotenv/config";
 
 import webhookRoutes from "./routes/webhookRoutes.js";
-import { searchReviewsbyPlate,saveReview,saveQuery } from "./services/db.js"; 
-
+import { searchReviewsbyPlate, saveReview, saveQuery } from "./services/db.js";
 
 const app = express();
 app.use(express.json());
 app.use("/", webhookRoutes);
 
-const PORT = 8080;
+const PORT = 3000;
 
 app.get("/", (req, res) => {
   res.send("Hello, Debería subirme!");
 });
 
-app.get("/reviews/:plate", async(req, res) => {
-
+app.get("/reviews/:plate", async (req, res) => {
   const { plate } = req.params;
 
   const review = await searchReviewsbyPlate(plate.toUpperCase());
@@ -26,26 +24,27 @@ app.get("/reviews/:plate", async(req, res) => {
   res.status(201).send(review);
 });
 
-app.post("/reviews", async(req, res) => {
+app.post("/reviews", async (req, res) => {
   const { number, type, description, plate } = req.body;
 
-  const savedReview = await saveReview({ number, type, description, plate: plate.toUpperCase() });
+  const savedReview = await saveReview({
+    number,
+    type,
+    description,
+    plate: plate.toUpperCase(),
+  });
 
   if (!savedReview) {
     return res.status(500).send("Error al guardar la reseña");
   }
 
-
-  res.status(201).send(savedReview); 
+  res.status(201).send(savedReview);
 });
 
-
-
-app.post("/queries", async(req, res) => {
-
+app.post("/queries", async (req, res) => {
   const { number, plate } = req.body;
 
-  console.log(number, plate)
+  console.log(number, plate);
 
   const savedReview = await saveQuery({ number, plate: plate.toUpperCase() });
 
@@ -53,9 +52,8 @@ app.post("/queries", async(req, res) => {
     return res.status(500).send("Error el request reseña");
   }
 
-  res.status(201).send(savedReview); 
+  res.status(201).send(savedReview);
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

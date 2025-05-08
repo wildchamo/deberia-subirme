@@ -134,6 +134,7 @@ class WhatsAppService {
       interactive: {
         type: "cta_url",
         header: {
+          type: "text",
           text: headerText,
         },
         body: {
