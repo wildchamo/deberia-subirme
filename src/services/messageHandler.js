@@ -207,7 +207,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
         },
         {
           type: "reply",
-          reply: { id: "apoyar-proyecto", title: "💰 Apoyar proyecto" },
+          reply: { id: "apoyar-proyecto", title: "💜 Apoyar proyecto" },
         },
       ];
 
@@ -229,7 +229,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
         },
         {
           type: "reply",
-          reply: { id: "apoyar-proyecto", title: "💰 Apoyar proyecto" },
+          reply: { id: "apoyar-proyecto", title: "💜 Apoyar proyecto" },
         },
       ];
 
@@ -293,7 +293,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
           },
           {
             type: "reply",
-            reply: { id: "apoyar-proyecto", title: "💰 Apoyar proyecto" },
+            reply: { id: "apoyar-proyecto", title: "💜 Apoyar proyecto" },
           },
         ];
 
