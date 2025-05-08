@@ -115,10 +115,6 @@ class MessageHandler {
         type: "reply",
         reply: { id: "reportar-incidente", title: "2️⃣ Reportar placa" },
       },
-      {
-        type: "reply",
-        reply: { id: "apoyar-proyecto", title: "💰 Apoyar proyecto" },
-      },
     ];
 
     await whatsappService.sendInteractiveButtons(to, title, buttons);
