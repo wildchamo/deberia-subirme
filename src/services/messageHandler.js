@@ -80,21 +80,22 @@ class MessageHandler {
   }
 
   async sendWelcomeMessage(to) {
-    const welcomeMessage =
-      "*Hey! Nomo te saluda.* \nBienvenidx a esta herramienta creada por ti y para ti. Aquí podrás consultar si una placa vehicular tiene algún reporte negativo o registrar una mala experiencia que hayas tenido en el servicio de transporte público individual para que nadie vuelva a pasar por lo mismo.";
+    const welcomeMessage = `Hey! Nomo te saluda 💜 \nBienvenidx a esta comunidad que te cuida en el transporte público individual. 
+
+¿Qué quieres hacer hoy?`;
 
     await whatsappService.sendMessage(to, welcomeMessage);
   }
 
   async sendNeedMoreHelp(to) {
     const message =
-      "¿Necesitas ayuda con algo más? 💬\nEstamos aquí para apoyarte en lo que necesites relacionado con tu viaje.";
+      "¿Necesitas ayuda con algo más? 💬\nEstamos aquí para apoyarte en lo que necesites.";
 
     await whatsappService.sendMessage(to, message);
   }
 
   async sendWelcomeMenu(to) {
-    const title = "¿Qué te gustaría hacer?";
+    const title = "Selecciona una opción:";
     const buttons = [
       {
         type: "reply",
@@ -105,7 +106,7 @@ class MessageHandler {
       },
       {
         type: "reply",
-        reply: { id: "reportar-incidente", title: "2️⃣ Registrar viaje" },
+        reply: { id: "reportar-incidente", title: "2️⃣ Reportar placa" },
       },
     ];
 
@@ -120,13 +121,15 @@ class MessageHandler {
         this.reportQuery[to] = { step: "plate" };
 
         response =
-          "Por favor, escribe el número de placa en el siguiente formato: *ABC-123*";
+          "Por favor, escribe el número de placa en el siguiente formato: *ABC123*";
         break;
 
       case "reportar-incidente":
         this.reportForm[to] = { step: "plate" };
-        response =
-          "Agradecemos que quieras compartir tu experiencia con la comunidad. Creemos firmemente que tu reseña ayudará a proteger la vida de alguien más. \n Primero, ingresa la placa del vehículo en el siguiente formato: ABC-123";
+        response = `¡Gracias por compartir tu experiencia con la comunidad!
+Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
+ \n Primero, ingresa la placa del vehículo en el siguiente formato: ABC-123`;
+
         break;
 
       default:
@@ -169,7 +172,7 @@ class MessageHandler {
       }
 
       reportSummary +=
-        "\nRecuerda que estos reportes NO están verificados y fueron hechos por la comunidad. Nuestro objetivo es informarte y prevenirte antes de que decidas subirte a un vehículo. ¿Hay algo más en lo que pueda ayudarte?";
+        "\nRecuerda que estos reportes NO están verificados y fueron hechos por la comunidad. Nuestro objetivo es informarte y prevenirte antes de que decidas subirte a un vehículo. \n¿Hay algo más en lo que pueda ayudarte?";
 
       await whatsappService.sendMessage(to, reportSummary);
 
@@ -209,8 +212,11 @@ class MessageHandler {
         const category = message.interactive.list_reply.id;
         state.category = category;
 
-        response =
-          "Gracias por seleccionar la categoría.\n Ahora, si lo deseas, puedes compartir una breve descripción de lo que sucedió. Esta información es opcional pero muy valiosa para ayudar a otros.\n Si prefieres no añadir una descripción, simplemente envía un punto (.) o la palabra 'ok' para continuar.";
+        response = `¡Listo!.\n Si lo deseas, puedes compartir una breve descripción de lo que sucedió. 
+
+💜Esta información es opcional ,pero muy valiosa para ayudar a otros.\n Si prefieres no añadir una descripción, envía un punto (.) o la palabra “ok” para continuar.
+        `;
+
         break;
       case "description":
         state.description = message;
@@ -223,7 +229,7 @@ class MessageHandler {
         });
         delete this.reportForm[to];
 
-        response = `Gracias por compartir tu experiencia con nosotros. \n\nTu reseña ha sido registrada con éxito y será revisada por nuestro equipo. \n\nRecuerda que tu opinión es valiosa y ayuda a crear un entorno más seguro para todos. \n\nSi tienes alguna otra consulta o necesitas más ayuda, no dudes en decírmelo.`;
+        response = `Gracias por compartir tu experiencia con nosotros. \n\nTu reseña ha sido registrada con éxito.\nRecuerda que tu opinión es valiosa y ayuda a crear un entorno más seguro para todos. \n\n¿Hay algo más en lo que pueda ayudarte?`;
         break;
     }
 
