@@ -79,10 +79,23 @@ class MessageHandler {
   }
 
   async sendNeedMoreHelp(to) {
-    const message =
+    const title =
       "¿Necesitas ayuda con algo más? 💬\nEstamos aquí para apoyarte en lo que necesites.";
+    const buttons = [
+      {
+        type: "reply",
+        reply: {
+          id: "hacer-consulta",
+          title: "1️⃣ Consultar placa",
+        },
+      },
+      {
+        type: "reply",
+        reply: { id: "reportar-incidente", title: "2️⃣ Reportar placa" },
+      },
+    ];
 
-    await whatsappService.sendMessage(to, message);
+    await whatsappService.sendInteractiveButtons(to, title, buttons);
   }
 
   async sendWelcomeMenu(to) {
