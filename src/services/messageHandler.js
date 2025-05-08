@@ -190,7 +190,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
 
       await whatsappService.sendInteractiveButtons(to, reportSummary, buttons);
     } else {
-      title = `❌ El vehículo con placa ${plate} no cuenta con registros en nuestra plataforma. No olvides consultar la próxima vez que vayas a subirte a un vehículo; nuestro objetivo es informarte y prevenirte. ¿Hay algo más en lo que pueda ayudarte?`;
+      const resTitle = `❌ El vehículo con placa ${plate} no cuenta con registros en nuestra plataforma. No olvides consultar la próxima vez que vayas a subirte a un vehículo; nuestro objetivo es informarte y prevenirte. ¿Hay algo más en lo que pueda ayudarte?`;
 
       const buttons = [
         {
@@ -210,7 +210,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
         },
       ];
 
-      await whatsappService.sendInteractiveButtons(to, title, buttons);
+      await whatsappService.sendInteractiveButtons(to, resTitle, buttons);
     }
   }
 
