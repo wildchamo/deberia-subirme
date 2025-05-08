@@ -58,7 +58,6 @@ class MessageHandler {
           return await this.handleReportFlow(message.from, incomingMessage);
         }
 
-        await this.sendWelcomeMessage(message.from, message.id);
         await this.sendWelcomeMenu(message.from);
 
         break;
@@ -79,14 +78,6 @@ class MessageHandler {
     }
   }
 
-  async sendWelcomeMessage(to) {
-    const welcomeMessage = `Hey! Nomo te saluda 💜 \nBienvenidx a esta comunidad que te cuida en el transporte público individual. 
-
-¿Qué quieres hacer hoy?`;
-
-    await whatsappService.sendMessage(to, welcomeMessage);
-  }
-
   async sendNeedMoreHelp(to) {
     const message =
       "¿Necesitas ayuda con algo más? 💬\nEstamos aquí para apoyarte en lo que necesites.";
@@ -95,7 +86,9 @@ class MessageHandler {
   }
 
   async sendWelcomeMenu(to) {
-    const title = "Selecciona una opción:";
+    const title = `Hey! Nomo te saluda 💜 \nBienvenidx a esta comunidad que te cuida en el transporte público individual. 
+
+¿Qué quieres hacer hoy?`;
     const buttons = [
       {
         type: "reply",
