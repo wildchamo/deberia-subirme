@@ -152,7 +152,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
           to,
           headerText: "Salva vidas apoyando a NoMo",
           bodyText:
-            "Tu ayuda hace la diferencia. Todas las donaciones serán usadas para mantener y mejorar el proyecto.",
+            "Todas las donaciones serán usadas para mantener y mejorar el proyecto.",
           footerText: "¡Gracias por tu apoyo!",
           displayText: "Hacer una donación",
           url: "https://wildchamo.github.io/nomo-landing/apoyar.html",
