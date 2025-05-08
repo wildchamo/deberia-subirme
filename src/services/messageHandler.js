@@ -281,7 +281,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
         });
         delete this.reportForm[to];
 
-        title = `Gracias por compartir tu experiencia con nosotros. \n\nTu reseña ha sido registrada con éxito.\nRecuerda que tu opinión es valiosa y ayuda a crear un entorno más seguro para todos. \n\n¿Hay algo más en lo que pueda ayudarte?`;
+        const mainTitle = `Gracias por compartir tu experiencia con nosotros. \n\nTu reseña ha sido registrada con éxito.\nRecuerda que tu opinión es valiosa y ayuda a crear un entorno más seguro para todos. \n\n¿Hay algo más en lo que pueda ayudarte?`;
 
         const buttons = [
           {
@@ -301,7 +301,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
           },
         ];
 
-        await whatsappService.sendInteractiveButtons(to, title, buttons);
+        await whatsappService.sendInteractiveButtons(to, mainTitle, buttons);
 
         response = null;
         break;
