@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 app.use("/", webhookRoutes);
 
-const PORT = 8080;
+const port = process.env.PORT || 8080;
 
 app.get("/", (req, res) => {
   res.send("Hello, Debería subirme!");
@@ -55,6 +55,6 @@ app.post("/queries", async (req, res) => {
   res.status(201).send(savedReview);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
