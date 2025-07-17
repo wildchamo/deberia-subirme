@@ -128,7 +128,7 @@ Sabemos que tu reseña ayudará a proteger la vida de alguien más 🫂💜
             "Todas las donaciones serán usadas para mantener y mejorar el proyecto.",
           footerText: "¡Gracias por tu apoyo!",
           displayText: "Hacer una donación",
-          url: "https://wildchamo.github.io/nomo-landing/apoyar.html",
+          url: "https://nomoinforma.lat/apoyar",
         });
 
         break;

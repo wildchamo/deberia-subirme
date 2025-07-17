@@ -1,7 +1,8 @@
-#  Flujos de WhatsApp
+# Flujos de WhatsApp
+
 Estos son los flujos conversacionales que el usuario tendrá al interactuar con el sistema *¿Debería Subirme?* por WhatsApp. Están pensados para una implementación inicial tipo chatbot.
 
-##  Flujo de bienvenida
+## Flujo de bienvenida
 
 ¡Hola! Bienvenido a ¿Debería Subirme?
 
@@ -9,7 +10,6 @@ Estos son los flujos conversacionales que el usuario tendrá al interactuar con 
 
 1️⃣ Consultar una placa  
 2️⃣ Registrar una experiencia  
-
 
 ## Flujo: Consultar una placa
 
@@ -22,22 +22,22 @@ ABC-123
 
 *(Sistema consulta base de datos)*
 
-#### Si hay registros:
+#### Si hay registros
 
 ¡Encontramos resultados!
 
 El vehículo con placa ABC-123 tiene:  
-	•	3 reportes de tipo 🚨 comportamiento agresivo  
-	•	2 reportes de tipo ⚠️ conducción peligrosa  
+ • 3 reportes de tipo 🚨 comportamiento agresivo  
+ • 2 reportes de tipo ⚠️ conducción peligrosa  
 
 Gracias por usar ¿Debería Subirme?
 ¿Hay algo más en lo que pueda ayudarte?
 
-#### Si NO hay registros:
+#### Si NO hay registros
+
 El vehículo con placa ABC-123 no cuenta con registros en nuestra plataforma.
 
 ¿Hay algo más en lo que pueda ayudarte?
-
 
 ## Flujo: Registrar una experiencia
 
@@ -51,7 +51,7 @@ ABC-123
 **Paso 2: Usuario envía placa**
 
 Ahora, selecciona una categoría para tu experiencia:  
-1️⃣ Comportamiento agresivo   
+1️⃣ Comportamiento agresivo
 2️⃣ Conducción peligrosa  
 3️⃣ Comentarios inapropiados  
 4️⃣ Intento de acoso  
@@ -67,19 +67,14 @@ Por último, ¿te gustaría contarnos más sobre lo que ocurrió?
 
 #### Si elige **1 (Sí, compartir más detalles):**
 
-
 Escribe tu experiencia aquí. Cuéntanos lo que ocurrió (puedes escribir lo que quieras).
-
 
 ✅ ¡Gracias por compartir! Nos ayudas a salvar vidas 💚
 
-
 ¿Hay algo más en lo que pueda ayudarte?
-
-
 
 ### 🌱 Flujo extra: Apoyo al proyecto
 
 🚗 Este es un proyecto en desarrollo.
 Si quieres apoyar o compartir, visita:
-🌐 [url web]
+🌐 <https://nomoinforma.lat/>
